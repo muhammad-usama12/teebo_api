@@ -42,7 +42,7 @@ app.use(
 app.use(express.static("public"));
 app.use(
   session({
-    secret: process.env.COOKIE_SECRET,
+    secret: "something",
     credentials: true,
     name: "sessionId",
     resave: false,
@@ -87,7 +87,6 @@ app.use("/api/watchlist", watchlistRoutes);
 
 import { default as likeRoutes } from "./routes/likeRoutes.js";
 app.use("/api/like", likeRoutes);
-
 
 // Home page
 // Warning: avoid creating more routes in this file!
