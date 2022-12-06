@@ -42,7 +42,7 @@ app.use(
 app.use(express.static("public"));
 app.use(
   session({
-    secret: "something",
+    secret: process.env.COOKIE_SECRET,
     credentials: true,
     name: "sessionId",
     resave: false,
