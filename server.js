@@ -35,21 +35,42 @@ app.use(
   })
 );
 app.use(express.static("public"));
+// app.use(
+//   session({
+//     secret: "dsadsadjlaskdjsalkdjlkejlk432432423j4lk32j4l32k4j23",
+//     credentials: true,
+//     name: "sessionId",
+//     resave: false,
+//     saveUninitialized: false,
+//     cookie: {
+//       secure: process.env.ENVIRONMENT === "production" ? "true" : "auto",
+//       httpOnly: false,
+//       expires: 1000 * 60 * 60 * 24 * 7,
+//       sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
+//     },
+//   })
+// );
+app.set("trust proxy", 1);
+
 app.use(
   session({
-    secret: "dsadsadjlaskdjsalkdjlkejlk432432423j4lk32j4l32k4j23",
-    credentials: true,
-    name: "sessionId",
-    resave: false,
-    saveUninitialized: false,
     cookie: {
-      secure: process.env.ENVIRONMENT === "production" ? "true" : "auto",
-      httpOnly: false,
-      expires: 1000 * 60 * 60 * 24 * 7,
-      sameSite: process.env.ENVIRONMENT === "production" ? "none" : "lax",
+      secure: true,
+      maxAge: 60000,
     },
+    store: new RedisStore(),
+    secret: "secret",
+    saveUninitialized: true,
+    resave: false,
   })
 );
+
+app.use(function (req, res, next) {
+  if (!req.session) {
+    return next(new Error("Oh no")); //handle error
+  }
+  next(); //otherwise continue
+});
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
