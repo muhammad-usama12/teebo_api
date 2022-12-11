@@ -37,7 +37,7 @@ app.use(
 app.use(express.static("public"));
 app.use(
   session({
-    secret: "teebo@",
+    secret: "dsadsadjlaskdjsalkdjlkejlk432432423j4lk32j4l32k4j23",
     credentials: true,
     name: "sessionId",
     resave: false,
