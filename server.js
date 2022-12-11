@@ -11,7 +11,7 @@ const __dirname = url.fileURLToPath(new URL(".", import.meta.url));
 import sassMiddleware from "./lib/sass-middleware.js";
 import express from "express";
 import morgan from "morgan";
-import session from "express-session";
+import cookieSession from "cookie-session";
 // const cors = require("cors");
 
 const PORT = process.env.PORT || 3001;
@@ -50,27 +50,15 @@ app.use(express.static("public"));
 //     },
 //   })
 // );
-app.set("trust proxy", 1);
-
 app.use(
-  session({
-    cookie: {
-      secure: true,
-      maxAge: 60000,
-    },
-    store: new RedisStore(),
-    secret: "secret",
-    saveUninitialized: true,
-    resave: false,
+  cookieSession({
+    name: "session",
+    keys: ["teebo@@"],
+
+    // Cookie Options
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours
   })
 );
-
-app.use(function (req, res, next) {
-  if (!req.session) {
-    return next(new Error("Oh no")); //handle error
-  }
-  next(); //otherwise continue
-});
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
