@@ -18,16 +18,11 @@ const PORT = process.env.PORT || 3001;
 const app = express();
 app.use(cors());
 
-// var corsOptions = {
-//   origin: "http://localhost:3001",
-// };
-
 app.set("view engine", "ejs");
 
 // Load the logger first so all (static) HTTP requests are logged to STDOUT
 // 'dev' = Concise output colored by response status for development use.
 //         The :status token will be colored red for server error codes, yellow for client error codes, cyan for redirection codes, and uncolored for all other codes.
-// app.use(cors(corsOptions));
 app.use(morgan("dev"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -42,7 +37,7 @@ app.use(
 app.use(express.static("public"));
 app.use(
   session({
-    secret: process.env.COOKIE_SECRET,
+    secret: "teebo@",
     credentials: true,
     name: "sessionId",
     resave: false,
