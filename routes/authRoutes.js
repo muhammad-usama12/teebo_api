@@ -4,6 +4,8 @@ const router = express.Router();
 import db from "../db/connection.js";
 import bcrypt from "bcryptjs";
 
+const salt = await bcrypt.genSalt(10);
+
 router
   .route("/login")
 
@@ -63,7 +65,7 @@ router.post("/signup", async (req, res) => {
 
   if (existingUser.rowCount === 0) {
     // register
-    const hashedPass = await bcrypt.hash(req.body.password, 10);
+    const hashedPass = await bcrypt.hash(req.body.password, salt);
     const newUserQuery = await db.query(
       "INSERT INTO users(username, password) values($1,$2) RETURNING id, username",
       [req.body.username, hashedPass]
